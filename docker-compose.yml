@@ -16,7 +16,7 @@ services:
       - zabbix_server_data:/var/lib/zabbix
     networks:
       zabbix-network:
-        ipv4_address: 192.168.100.2
+        ipv4_address: ${ZABBIX_SERVER_IP}
 
   zabbix-web:
     image: zabbix/zabbix-web-nginx-mysql:latest
@@ -29,12 +29,12 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       PHP_TZ: Asia/Tokyo
     ports:
-      - ${ZABBIX_WEB_PORT}:8080
+      - "8080:8080"
     depends_on:
       - zabbix-server
     networks:
       zabbix-network:
-        ipv4_address: 192.168.100.3
+        ipv4_address: ${ZABBIX_WEB_IP}
 
   zabbix-mysql:
     image: mysql:8.0
@@ -51,14 +51,14 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       zabbix-network:
-        ipv4_address: 192.168.100.4
+        ipv4_address: ${ZABBIX_MYSQL_IP}
 
 networks:
   zabbix-network:
     driver: bridge
     ipam:
       config:
-        - subnet: 192.168.100.0/24
+        - subnet: ${ZABBIX_SUBNET}
 
 volumes:
   zabbix_server_data:
