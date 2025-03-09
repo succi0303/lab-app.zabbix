@@ -44,6 +44,9 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+networks:
+  default:
+    driver: bridge
 volumes:
   zabbix_server_data:
   mysql_data:
